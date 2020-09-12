@@ -21,7 +21,7 @@ namespace FocusTestBackEnd.Models
         public string website { get; set; }
         public geo geo { get; set; }
         public company company { get; set; }
-        pu
+      
 
     }
 
