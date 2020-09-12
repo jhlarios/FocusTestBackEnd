@@ -25,8 +25,9 @@ namespace FocusTestBackEnd.Controllers
         {
 
 
-            var Urlbase = "https://jsonplaceholder.typicode.com";
-            var UrlService = "/users";
+            var Urlbase = "https://my-json-server.typicode.com/";
+            var UrlSegment = "/jhlarios/dbjson";
+            var UrlService = UrlSegment+ "/users";
             if (id!=null && id!="")
             {
                 UrlService += "?id=" + id;
@@ -52,10 +53,40 @@ namespace FocusTestBackEnd.Controllers
             return Ok(Data);
         }
 
+        [Route("Users")]
+        [HttpPost]
+        public IActionResult UsersRegister(User Data)
+        {
+
+            var Urlbase = "https://my-json-server.typicode.com/";
+            var UrlSegment = "/jhlarios/dbjson";
+            var UrlService = UrlSegment + "/Users";
+
+
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(Urlbase);
+            try
+            {
+                var contentType = new MediaTypeWithQualityHeaderValue("application/json");
+                client.DefaultRequestHeaders.Accept.Add(contentType);
+                string stringData = JsonConvert.SerializeObject(Data);
+                var contentData = new StringContent(stringData, System.Text.Encoding.UTF8, "application/json");
+                HttpResponseMessage response = client.PostAsync(UrlService, contentData).Result;
+                string stringJWT = response.Content.ReadAsStringAsync().Result;
+                Data = JsonConvert.DeserializeObject<User>(stringJWT);
+
+            }
+            catch
+            {
+
+            }
+            return Ok(Data);
+        }
 
 
 
-        
+
+
 
 
         // User albums
@@ -65,9 +96,10 @@ namespace FocusTestBackEnd.Controllers
         public IActionResult albums(string id)
         {
 
-
-            var Urlbase = "https://jsonplaceholder.typicode.com";
-            var UrlService = "/albums";
+            var Urlbase = "https://my-json-server.typicode.com/";
+            var UrlSegment = "/jhlarios/dbjson";
+            var UrlService = UrlSegment + "/albums";
+           
             if (id != null && id != "")
             {
                 UrlService += "?id=" + id;
@@ -101,9 +133,10 @@ namespace FocusTestBackEnd.Controllers
         public IActionResult Photos(string id)
         {
 
-
-            var Urlbase = "https://jsonplaceholder.typicode.com";
-            var UrlService = "/albums/1/photos";
+            var Urlbase = "https://my-json-server.typicode.com/";
+            var UrlSegment = "/jhlarios/dbjson";
+            var UrlService = UrlSegment + "/photos";
+          
             if (id != null && id != "")
             {
                 UrlService += "?id=" + id;
@@ -133,14 +166,16 @@ namespace FocusTestBackEnd.Controllers
        
 
 
-        [Route("PhotoRegister")]
+        [Route("Photos")]
         [HttpPost]
         public IActionResult PhotoRegister(Photo Data)
         {
 
+            var Urlbase = "https://my-json-server.typicode.com/";
+            var UrlSegment = "/jhlarios/dbjson";
+            var UrlService = UrlSegment + "/photos";
 
-            var Urlbase = "https://jsonplaceholder.typicode.com";
-            var UrlService = "/albums/1/photos";
+           
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(Urlbase);
             try
@@ -162,14 +197,16 @@ namespace FocusTestBackEnd.Controllers
         }
 
 
-        [Route("PhotoUpdate")]
+        [Route("Photos")]
         [HttpPut]
         public IActionResult PhotoUpdate(Photo Data)
         {
 
 
-            var Urlbase = "https://jsonplaceholder.typicode.com";
-            var UrlService = "/albums/1/photos";
+            var Urlbase = "https://my-json-server.typicode.com/";
+            var UrlSegment = "/jhlarios/dbjson";
+            var UrlService = UrlSegment + "/photos";
+
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(Urlbase);
             try
@@ -191,15 +228,16 @@ namespace FocusTestBackEnd.Controllers
         }
 
 
-        [Route("PhotoDelete")]
+        [Route("Photos")]
         [HttpDelete]
         public IActionResult PhotoDelete(string id)
         {
 
 
-            var Urlbase = "https://jsonplaceholder.typicode.com";
-            var UrlService = "/albums/1/photos";
-            var Resultado = "";
+            var Urlbase = "https://my-json-server.typicode.com/";
+            var UrlSegment = "/jhlarios/dbjson";
+            var UrlService = UrlSegment + "/photos";
+       
             if (id != null && id != "")
             {
                 UrlService += "?id=" + id;
@@ -222,7 +260,7 @@ namespace FocusTestBackEnd.Controllers
 
             }
         
-            return Ok(Resultado);
+            return Ok(Data);
         }
 
 
