@@ -263,6 +263,88 @@ namespace FocusTestBackEnd.Controllers
             return Ok(Data);
         }
 
+        // Custom Grid methods
+
+        [HttpGet]
+        [Route("UserGrid")]
+        public IActionResult UserGrid(string name, string username, string email, string city)
+        { 
+            var Data = new List<UserGridModel> { };
+            var Users = new List<User> { };
+            var Albums = new List<Album> { };
+            var Photos = new List<Photo> { };
+            try
+            {
+                
+                Users = JsonConvert.DeserializeObject<List<User>>(GetJson("users"));
+                Albums = JsonConvert.DeserializeObject<List<Album>>(GetJson("albums"));
+                Photos = JsonConvert.DeserializeObject<List<Photo>>(GetJson("photos"));
+            }
+            catch
+            {
+            }
+             Data =
+                 (from Usl  in Users
+                  where (Usl.name.Contains((String.IsNullOrEmpty(name) ? Usl.name:name))
+                  || Usl.username.Contains((String.IsNullOrEmpty(username) ? Usl.username : username))
+                  || Usl.email.Contains((String.IsNullOrEmpty(email) ? Usl.email : email))
+                  )
+                  && Usl.address.city.Contains((String.IsNullOrEmpty(city) ? Usl.address.city : city))
+                  select new UserGridModel
+                 { 
+                 id= Usl.id
+                 ,name= Usl.name
+                 ,username= Usl.username
+                 ,email= Usl.email
+                 ,address= Usl.address.street + ","+ Usl.address.suite + "," + Usl.address.city               
+                  }).ToList();
+
+
+            foreach (var item in Data)
+            {
+                var AlbumData = Albums.Where(x => x.userId == item.id);
+                
+                if (AlbumData.Count() > 0)
+                { 
+                    item.thumbnailUrl = Photos.Where(a=>a.albumId== AlbumData.FirstOrDefault().id).FirstOrDefault().thumbnailUrl ?? "" ;
+                }
+                else {
+                    item.thumbnailUrl = "";
+                }
+
+            }
+          
+
+
+            return Ok(Data);
+        }
+
+       
+
+           // General Get Function for dbjson database
+
+        public string GetJson (string ObjectName)
+        {
+            string stringJWT = "";
+            try
+            {
+                var Urlbase = "https://my-json-server.typicode.com/";
+                var UrlSegment = "/jhlarios/dbjson";
+                var UrlService = UrlSegment + "/" + ObjectName;
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(Urlbase);
+                var contentType = new MediaTypeWithQualityHeaderValue("application/json");
+                client.DefaultRequestHeaders.Accept.Add(contentType);
+                HttpResponseMessage response = client.GetAsync(UrlService).Result;
+                stringJWT = response.Content.ReadAsStringAsync().Result;
+            }
+            catch
+            {
+                throw;
+            }
+
+            return stringJWT;
+        }
 
 
 
