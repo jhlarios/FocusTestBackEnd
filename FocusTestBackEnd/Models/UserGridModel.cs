@@ -13,6 +13,6 @@ namespace FocusTestBackEnd.Models
         public string username { get; set; }
         public string email { get; set; }
         public string address { get; set; }
-        public string thumbnailUrl { get; set; }
+       
     }
 }

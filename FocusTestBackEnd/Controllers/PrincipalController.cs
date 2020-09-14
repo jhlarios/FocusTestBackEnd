@@ -30,7 +30,7 @@ namespace FocusTestBackEnd.Controllers
             var UrlService = UrlSegment+ "/users";
             if (id!=null && id!="")
             {
-                UrlService += "?id=" + id;
+                UrlService += "?Id=" + id;
             }
             var Data = new List<User> { };
             try
@@ -102,7 +102,7 @@ namespace FocusTestBackEnd.Controllers
            
             if (id != null && id != "")
             {
-                UrlService += "?id=" + id;
+                UrlService += "?userId=" + id;
             }
             var Data = new List<Album> { };
             try
@@ -125,6 +125,37 @@ namespace FocusTestBackEnd.Controllers
             return Ok(Data);
         }
 
+        [Route("albums")]
+        [HttpPut]
+        public IActionResult albumsUpdate(Album Data)
+        {
+
+
+            var Urlbase = "https://my-json-server.typicode.com/";
+            var UrlSegment = "/jhlarios/dbjson";
+            var UrlService = UrlSegment + "/albums/" + Data.id.ToString();
+
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(Urlbase);
+            try
+            {
+                var contentType = new MediaTypeWithQualityHeaderValue("application/json");
+                client.DefaultRequestHeaders.Accept.Add(contentType);
+                string stringData = JsonConvert.SerializeObject(Data);
+                var contentData = new StringContent(stringData, System.Text.Encoding.UTF8, "application/json");
+                HttpResponseMessage response = client.PutAsync(UrlService, contentData).Result;
+                string stringJWT = response.Content.ReadAsStringAsync().Result;
+                Data = JsonConvert.DeserializeObject<Album>(stringJWT);
+
+            }
+            catch
+            {
+
+            }
+            return Ok(Data);
+        }
+
+
 
         //Photo Methods
 
@@ -139,7 +170,7 @@ namespace FocusTestBackEnd.Controllers
           
             if (id != null && id != "")
             {
-                UrlService += "?id=" + id;
+                UrlService += "?albumId=" + id;
             }
             var Data = new List<Photo> { };
             try
@@ -174,8 +205,8 @@ namespace FocusTestBackEnd.Controllers
             var Urlbase = "https://my-json-server.typicode.com/";
             var UrlSegment = "/jhlarios/dbjson";
             var UrlService = UrlSegment + "/photos";
+            
 
-           
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(Urlbase);
             try
@@ -270,15 +301,10 @@ namespace FocusTestBackEnd.Controllers
         public IActionResult UserGrid(string name, string username, string email, string city)
         { 
             var Data = new List<UserGridModel> { };
-            var Users = new List<User> { };
-            var Albums = new List<Album> { };
-            var Photos = new List<Photo> { };
+            var Users = new List<User> { };          
             try
             {
-                
-                Users = JsonConvert.DeserializeObject<List<User>>(GetJson("users"));
-                Albums = JsonConvert.DeserializeObject<List<Album>>(GetJson("albums"));
-                Photos = JsonConvert.DeserializeObject<List<Photo>>(GetJson("photos"));
+                Users = JsonConvert.DeserializeObject<List<User>>(GetJson("users"));              
             }
             catch
             {
@@ -292,27 +318,15 @@ namespace FocusTestBackEnd.Controllers
                   && Usl.address.city.Contains((String.IsNullOrEmpty(city) ? Usl.address.city : city))
                   select new UserGridModel
                  { 
-                 id= Usl.id
+                  id= Usl.id
                  ,name= Usl.name
                  ,username= Usl.username
                  ,email= Usl.email
-                 ,address= Usl.address.street + ","+ Usl.address.suite + "," + Usl.address.city               
+                 ,address= Usl.address.street + ", "+ Usl.address.suite + ", " + Usl.address.city               
                   }).ToList();
 
 
-            foreach (var item in Data)
-            {
-                var AlbumData = Albums.Where(x => x.userId == item.id);
-                
-                if (AlbumData.Count() > 0)
-                { 
-                    item.thumbnailUrl = Photos.Where(a=>a.albumId== AlbumData.FirstOrDefault().id).FirstOrDefault().thumbnailUrl ?? "" ;
-                }
-                else {
-                    item.thumbnailUrl = "";
-                }
-
-            }
+           
           
 
 
@@ -335,7 +349,10 @@ namespace FocusTestBackEnd.Controllers
                 client.BaseAddress = new Uri(Urlbase);
                 var contentType = new MediaTypeWithQualityHeaderValue("application/json");
                 client.DefaultRequestHeaders.Accept.Add(contentType);
-                HttpResponseMessage response = client.GetAsync(UrlService).Result;
+                HttpResponseMessage response = new HttpResponseMessage ();
+                response.Headers.Add("Access-Control-Allow-Origin", "*");
+                response = client.GetAsync(UrlService).Result;
+               
                 stringJWT = response.Content.ReadAsStringAsync().Result;
             }
             catch
