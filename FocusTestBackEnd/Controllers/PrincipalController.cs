@@ -271,7 +271,7 @@ namespace FocusTestBackEnd.Controllers
        
             if (id != null && id != "")
             {
-                UrlService += "?id=" + id;
+                UrlService += "/" + id;
             }
             var Data = new List<Photo> { };
             try
