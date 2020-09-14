@@ -268,7 +268,7 @@ namespace FocusTestBackEnd.Controllers
             var Urlbase = "https://my-json-server.typicode.com/";
             var UrlSegment = "/jhlarios/dbjson";
             var UrlService = UrlSegment + "/photos";
-       
+            var Resultado = new ResultadoModel { };
             if (id != null && id != "")
             {
                 UrlService += "/" + id;
@@ -282,16 +282,16 @@ namespace FocusTestBackEnd.Controllers
                 client.DefaultRequestHeaders.Accept.Add(contentType);
                 HttpResponseMessage response = client.DeleteAsync(UrlService).Result;
                 string stringJWT = response.Content.ReadAsStringAsync().Result;
-                Data = JsonConvert.DeserializeObject<List<Photo>>(stringJWT);
 
+                Resultado.Resultado = "Eliminado exitosamente";
             }
-            catch
+            catch (Exception e)
             {
 
-
+                Resultado.Resultado = "No se pudo eliminar " + e;
             }
         
-            return Ok(Data);
+            return Ok(Resultado);
         }
 
         // Custom Grid methods
