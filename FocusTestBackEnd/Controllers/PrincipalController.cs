@@ -311,11 +311,14 @@ namespace FocusTestBackEnd.Controllers
             }
              Data =
                  (from Usl  in Users
-                  where (Usl.name.Contains((String.IsNullOrEmpty(name) ? Usl.name:name))
-                  || Usl.username.Contains((String.IsNullOrEmpty(username) ? Usl.username : username))
-                  || Usl.email.Contains((String.IsNullOrEmpty(email) ? Usl.email : email))
-                  )
-                  && Usl.address.city.Contains((String.IsNullOrEmpty(city) ? Usl.address.city : city))
+                  where
+     (
+     (Usl.name.ToUpper()).Contains((String.IsNullOrEmpty(name) || (name=="null") ? Usl.name.ToUpper() : name.ToUpper()))
+    && Usl.username.Contains((String.IsNullOrEmpty(username) || (username == "null") ? Usl.username : username))
+    && Usl.email.Contains((String.IsNullOrEmpty(email) || (email == "null") ? Usl.email : email))
+)
+
+&& Usl.address.city.ToUpper().Contains((String.IsNullOrEmpty(city) || (city == "null") ? Usl.address.city.ToUpper() : city.ToUpper()))
                   select new UserGridModel
                  { 
                   id= Usl.id
