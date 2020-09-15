@@ -25,8 +25,8 @@ namespace FocusTestBackEnd.Controllers
         {
 
 
-            var Urlbase = "https://my-json-server.typicode.com/";
-            var UrlSegment = "/jhlarios/dbjson";
+            var Urlbase = "https://jsonplaceholder.typicode.com";
+            var UrlSegment = "";
             var UrlService = UrlSegment+ "/users";
             if (id!=null && id!="")
             {
@@ -58,8 +58,8 @@ namespace FocusTestBackEnd.Controllers
         public IActionResult UsersRegister(User Data)
         {
 
-            var Urlbase = "https://my-json-server.typicode.com/";
-            var UrlSegment = "/jhlarios/dbjson";
+            var Urlbase = "https://jsonplaceholder.typicode.com";
+            var UrlSegment = "";
             var UrlService = UrlSegment + "/Users";
 
 
@@ -96,8 +96,8 @@ namespace FocusTestBackEnd.Controllers
         public IActionResult albums(string id)
         {
 
-            var Urlbase = "https://my-json-server.typicode.com/";
-            var UrlSegment = "/jhlarios/dbjson";
+            var Urlbase = "https://jsonplaceholder.typicode.com";
+            var UrlSegment = "";
             var UrlService = UrlSegment + "/albums";
            
             if (id != null && id != "")
@@ -131,8 +131,8 @@ namespace FocusTestBackEnd.Controllers
         public IActionResult AlbumDetail(string id)
         {
 
-            var Urlbase = "https://my-json-server.typicode.com/";
-            var UrlSegment = "/jhlarios/dbjson";
+            var Urlbase = "https://jsonplaceholder.typicode.com";
+            var UrlSegment = "";
             var UrlService = UrlSegment + "/albums";
 
             if (id != null && id != "")
@@ -166,8 +166,8 @@ namespace FocusTestBackEnd.Controllers
         {
 
 
-            var Urlbase = "https://my-json-server.typicode.com/";
-            var UrlSegment = "/jhlarios/dbjson";
+            var Urlbase = "https://jsonplaceholder.typicode.com";
+            var UrlSegment = "";
             var UrlService = UrlSegment + "/albums/" + Data.id.ToString();
 
             HttpClient client = new HttpClient();
@@ -199,8 +199,8 @@ namespace FocusTestBackEnd.Controllers
         public IActionResult Photos(string id)
         {
 
-            var Urlbase = "https://my-json-server.typicode.com/";
-            var UrlSegment = "/jhlarios/dbjson";
+            var Urlbase = "https://jsonplaceholder.typicode.com";
+            var UrlSegment = "";
             var UrlService = UrlSegment + "/photos";
           
             if (id != null && id != "")
@@ -237,8 +237,8 @@ namespace FocusTestBackEnd.Controllers
         public IActionResult PhotoRegister(Photo Data)
         {
 
-            var Urlbase = "https://my-json-server.typicode.com/";
-            var UrlSegment = "/jhlarios/dbjson";
+            var Urlbase = "https://jsonplaceholder.typicode.com";
+            var UrlSegment = "";
             var UrlService = UrlSegment + "/photos";
             
 
@@ -269,8 +269,8 @@ namespace FocusTestBackEnd.Controllers
         {
 
 
-            var Urlbase = "https://my-json-server.typicode.com/";
-            var UrlSegment = "/jhlarios/dbjson";
+            var Urlbase = "https://jsonplaceholder.typicode.com";
+            var UrlSegment = "";
             var UrlService = UrlSegment + "/photos";
 
             HttpClient client = new HttpClient();
@@ -300,8 +300,8 @@ namespace FocusTestBackEnd.Controllers
         {
 
 
-            var Urlbase = "https://my-json-server.typicode.com/";
-            var UrlSegment = "/jhlarios/dbjson";
+            var Urlbase = "https://jsonplaceholder.typicode.com";
+            var UrlSegment = "";
             var UrlService = UrlSegment + "/photos";
             var Resultado = new ResultadoModel { };
             if (id != null && id != "")
@@ -380,8 +380,8 @@ namespace FocusTestBackEnd.Controllers
             string stringJWT = "";
             try
             {
-                var Urlbase = "https://my-json-server.typicode.com/";
-                var UrlSegment = "/jhlarios/dbjson";
+                var Urlbase = "https://jsonplaceholder.typicode.com";
+                var UrlSegment = "";
                 var UrlService = UrlSegment + "/" + ObjectName;
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(Urlbase);
