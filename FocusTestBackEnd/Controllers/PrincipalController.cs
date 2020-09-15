@@ -125,6 +125,41 @@ namespace FocusTestBackEnd.Controllers
             return Ok(Data);
         }
 
+
+        [HttpGet]
+        [Route("AlbumDetail")]
+        public IActionResult AlbumDetail(string id)
+        {
+
+            var Urlbase = "https://my-json-server.typicode.com/";
+            var UrlSegment = "/jhlarios/dbjson";
+            var UrlService = UrlSegment + "/albums";
+
+            if (id != null && id != "")
+            {
+                UrlService += "/" + id;
+            }
+            var Data = new Album { };
+            try
+            {
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(Urlbase);
+                var contentType = new MediaTypeWithQualityHeaderValue("application/json");
+                client.DefaultRequestHeaders.Accept.Add(contentType);
+                HttpResponseMessage response = client.GetAsync(UrlService).Result;
+                string stringJWT = response.Content.ReadAsStringAsync().Result;
+                Data = JsonConvert.DeserializeObject<Album>(stringJWT);
+
+            }
+            catch
+            {
+
+
+            }
+
+            return Ok(Data);
+        }
+
         [Route("albums")]
         [HttpPut]
         public IActionResult albumsUpdate(Album Data)
